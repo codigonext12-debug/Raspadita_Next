@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tarjeta Sorpresa | Adicional Diario</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-1: #050816;
+      --bg-2: #0b1024;
+      --bg-3: #11183a;
+      --white: #f8fbff;
+      --muted: #c8d1f0;
+      --purple: #c44dff;
+      --blue: #24d5ff;
+      --gold: #ffd84d;
+      --gold-dark: #c98a10;
+      --ink: #11193f;
+      --shadow-md: 0 12px 34px rgba(0, 0, 0, 0.35);
+    }
+
+    body{
+    min-height:100vh;
+    font-family:Inter, Arial, sans-serif;
+    color:#f8fbff;
+
+    background:
+    radial-gradient(circle at 50% 15%,
+        rgba(0,220,255,.25),
+        transparent 30%),
+
+    radial-gradient(circle at 10% 40%,
+        rgba(0,120,255,.15),
+        transparent 35%),
+
+    radial-gradient(circle at 90% 30%,
+        rgba(0,200,255,.12),
+        transparent 30%),
+
+    linear-gradient(
+        180deg,
+        #020817 0%,
+        #041329 40%,
+        #071c3a 100%
+    );
+
+    overflow-x:hidden;
+}
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+
+    background-image:
+    radial-gradient(#ffffff 1px, transparent 1px),
+    radial-gradient(#00cfff 1px, transparent 1px);
+
+    background-size:
+    120px 120px,
+    180px 180px;
+
+    opacity:.35;
+}
+
+    body::after {
+      background:
+        linear-gradient(135deg, transparent 0 48%, rgba(255,255,255,0.025) 50%, transparent 52%),
+        linear-gradient(-135deg, transparent 0 48%, rgba(255,255,255,0.02) 50%, transparent 52%);
+      background-size: 180px 180px;
+      opacity: 0.2;
+    }
+
+    .app {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 980px);
+      margin: 0 auto;
+      padding: 26px 18px 46px;
+    }
+
+    .top-badge {
+      width: fit-content;
+      margin: 0 auto 22px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(90, 230, 255, 0.55);
+      background: linear-gradient(90deg, rgba(167, 58, 255, 0.16), rgba(20, 221, 255, 0.14));
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.04) inset,
+        0 0 28px rgba(36, 213, 255, 0.16),
+        0 0 18px rgba(196, 77, 255, 0.12);
+      text-align: center;
+      font-weight: 900;
+      font-size: 15px;
+      letter-spacing: 0.3px;
+    }
+
+    .top-badge span {
+      color: var(--blue);
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      color: #ffe56d;
+      font-size: 18px;
+      margin-bottom: 8px;
+      opacity: 0.95;
+    }
+
+    .hero-title {
+      font-size: clamp(44px, 11vw, 104px);
+      line-height: 0.9;
+      font-weight: 1000;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: linear-gradient(180deg, #f8beff 0%, #d16bff 28%, #8b5dff 52%, #32d9ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow:
+        0 8px 30px rgba(71, 41, 179, 0.45),
+        0 0 14px rgba(36, 213, 255, 0.15);
+      filter: drop-shadow(0 8px 18px rgba(0,0,0,0.45));
+    }
+
+    .hero-sub {
+      margin-top: 14px;
+      font-size: clamp(18px, 2.6vw, 34px);
+      color: var(--white);
+      font-weight: 750;
+    }
+
+    .hero-sub strong,
+    .highlight-pill strong {
+      color: var(--gold);
+    }
+
+    .highlight-pill {
+      width: fit-content;
+      margin: 18px auto 28px;
+      padding: 14px 24px;
+      border-radius: 999px;
+      font-size: clamp(16px, 2.4vw, 28px);
+      font-weight: 950;
+      background: linear-gradient(90deg, rgba(192,77,255,0.14), rgba(36,213,255,0.16));
+      border: 2px solid rgba(53, 224, 255, 0.6);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.06) inset,
+        0 0 24px rgba(36, 213, 255, 0.2),
+        0 0 22px rgba(196, 77, 255, 0.18);
+    }
+
+    .logo-container{
+    position: relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:30px;
+    perspective:1000px;
+}
+
+.logo-container img{
+    width:min(500px,90%);
+    height:auto;
+    max-width:100%;
+    display:block;
+
+    border-radius:20px;
+    animation:
+        logoFloat 4s ease-in-out infinite,
+        logoGlow 3s ease-in-out infinite;
+
+    filter:
+        drop-shadow(0 0 15px #00cfff)
+        drop-shadow(0 0 35px #00cfff)
+        drop-shadow(0 0 60px rgba(0,207,255,.7));
+}
+
+.logo-container::before{
+    content:"";
+    position:absolute;
+
+    width:600px;
+    height:600px;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(0,220,255,.25),
+        transparent 70%
+    );
+
+    filter:blur(40px);
+
+    animation:logoAura 5s ease-in-out infinite;
+}
+
+@keyframes logoAura{
+
+    0%,100%{
+        opacity:.5;
+        transform:translate(-50%,-50%) scale(1);
+    }
+
+    50%{
+        opacity:1;
+        transform:translate(-50%,-50%) scale(1.15);
+    }
+}
+
+@keyframes logoFloat{
+
+    0%,100%{
+        transform:
+        translateY(0px)
+        rotateY(-5deg);
+    }
+
+    50%{
+        transform:
+        translateY(-10px)
+        rotateY(5deg);
+    }
+}
+
+@keyframes logoGlow{
+
+    0%,100%{
+        filter:
+        drop-shadow(0 0 15px #00cfff)
+        drop-shadow(0 0 35px #00cfff);
+    }
+
+    50%{
+        filter:
+        drop-shadow(0 0 30px #00cfff)
+        drop-shadow(0 0 80px #00cfff);
+    }
+}
+
+@keyframes haloRotate{
+
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+    .info-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin: 0 auto 18px;
+      background: rgba(7, 12, 31, 0.82);
+      border: 1px solid rgba(67, 132, 255, 0.28);
+      border-radius: 30px;
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    .info-item {
+      padding: 24px 22px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      min-height: 128px;
+      position: relative;
+    }
+
+    .info-item:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 22px;
+      bottom: 22px;
+      width: 1px;
+      background: linear-gradient(180deg, transparent, rgba(255,255,255,0.2), transparent);
+    }
+
+    .icon-circle {
+      width: 74px;
+      height: 74px;
+      min-width: 74px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 34px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.18), transparent 45%), linear-gradient(180deg, #7424ff, #1b1265);
+      box-shadow: 0 0 22px rgba(131, 68, 255, 0.35);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .icon-circle.blue {
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2), transparent 45%), linear-gradient(180deg, #08c4ff, #0d4fbe);
+      box-shadow: 0 0 24px rgba(36, 213, 255, 0.34);
+    }
+
+    .icon-circle.purple {
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.18), transparent 45%), linear-gradient(180deg, #8e2fff, #3e1297);
+      box-shadow: 0 0 24px rgba(196, 77, 255, 0.34);
+    }
+
+    .info-text h3 {
+      font-size: clamp(18px, 2vw, 24px);
+      margin-bottom: 6px;
+    }
+
+    .info-text p {
+      color: var(--muted);
+      font-size: clamp(14px, 1.7vw, 18px);
+      line-height: 1.35;
+    }
+
+    .hint {
+      text-align: center;
+      font-size: clamp(20px, 3vw, 28px);
+      font-weight: 950;
+      color: #ff7dff;
+      margin: 18px 0 14px;
+      text-shadow: 0 0 18px rgba(255, 94, 255, 0.35);
+      animation: pulse 1.8s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: translateY(0); opacity: 0.82; }
+      50% { transform: translateY(-2px); opacity: 1; }
+    }
+
+    .scratch-shell {
+      position: relative;
+      width: 100%;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 4px;
+      border-radius: 36px;
+      background: linear-gradient(90deg, #ff53d8, #ff9f3f, #39d9ff, #8e5eff);
+      box-shadow:
+        0 0 34px rgba(162, 83, 255, 0.24),
+        0 0 44px rgba(36, 213, 255, 0.14),
+        0 24px 60px rgba(0,0,0,0.38);
+    }
+
+    .scratch-shell.attention {
+      animation: attentionGlow 0.8s ease-in-out 2;
+    }
+
+    @keyframes attentionGlow {
+      0%, 100% { transform: scale(1); filter: brightness(1); }
+      50% { transform: scale(1.015); filter: brightness(1.15); }
+    }
+    @media (max-width:600px){
+
+  .scratch-wrapper{
+      aspect-ratio:1.4 / 1;
+  }
+
+}
+    .scratch-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1.78 / 1;
+      border-radius: 32px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.25), transparent 18%),
+        radial-gradient(circle at 80% 30%, rgba(255,255,255,0.16), transparent 16%),
+        linear-gradient(135deg, #3f2400, #996200 16%, #f6c547 35%, #fff2b0 48%, #e3a820 66%, #8f5b00 100%);
+      box-shadow:
+        inset 0 2px 14px rgba(255,255,255,0.35),
+        inset 0 -14px 30px rgba(120, 72, 0, 0.26);
+    }
+    
+
+    .scratch-wrapper::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,0.34) 0 1px, transparent 2px),
+        radial-gradient(circle at 25% 62%, rgba(255,255,255,0.3) 0 1.4px, transparent 2.4px),
+        radial-gradient(circle at 86% 28%, rgba(255,255,255,0.28) 0 1.2px, transparent 2.4px),
+        radial-gradient(circle at 70% 80%, rgba(255,255,255,0.22) 0 1.2px, transparent 2.4px),
+        linear-gradient(115deg, transparent 0 32%, rgba(255,255,255,0.6) 36%, transparent 45%),
+        linear-gradient(-115deg, transparent 0 58%, rgba(255,255,255,0.2) 64%, transparent 72%);
+      opacity: 0.58;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .reward {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      padding: 22px;
+      text-align: center;
+    }
+
+    .reward-inner {
+      width: min(86%, 580px);
+      min-height: 70%;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 6px;
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,0.94), rgba(255,255,255,0.92) 48%, rgba(255,255,255,0.1) 82%, transparent 100%);
+      color: var(--ink);
+      border-radius: 30px;
+      padding: 24px 18px;
+      transform: scale(1);
+      transition: transform 0.32s ease, filter 0.32s ease;
+    }
+
+    .reward-top {
+      font-size: clamp(18px, 3vw, 34px);
+      font-weight: 1000;
+      color: #15235a;
+    }
+
+    .reward-main {
+      font-size: clamp(42px, 10vw, 104px);
+      line-height: 0.9;
+      font-weight: 1000;
+      background: linear-gradient(180deg, #fff7c0 0%, #ffd969 22%, #f3bb31 42%, #cf8602 75%, #fff1ab 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow:
+        0 3px 0 rgba(255,255,255,0.35),
+        0 10px 20px rgba(130, 82, 0, 0.22);
+      filter: drop-shadow(0 2px 6px rgba(111, 66, 0, 0.35));
+    }
+
+    .reward-bottom {
+      font-size: clamp(16px, 2.6vw, 28px);
+      font-weight: 1000;
+      color: #16245d;
+      letter-spacing: 0.6px;
+    }
+
+    .reward-note {
+      font-size: clamp(12px, 1.8vw, 16px);
+      color: #30458f;
+      font-weight: 750;
+      margin-top: 4px;
+    }
+
+    .validation-code {
+      display: none;
+      margin-top: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      color: #10183c;
+      background: linear-gradient(90deg, #fff1a3, #ffd84d, #f5b32a);
+      border: 1px solid rgba(110, 73, 0, 0.2);
+      font-size: clamp(12px, 1.7vw, 16px);
+      font-weight: 1000;
+      letter-spacing: 0.7px;
+      box-shadow: 0 8px 22px rgba(131, 82, 0, 0.18);
+    }
+
+    .reward.revealed .reward-inner {
+      transform: scale(1.04);
+      filter: drop-shadow(0 0 18px rgba(255, 228, 146, 0.34));
+    }
+
+    .reward.revealed .validation-code {
+      display: inline-flex;
+    }
+
+    .reward.big-win .reward-inner {
+      animation: bigPop 1s ease-in-out 3;
+    }
+
+    @keyframes bigPop {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.1) rotate(-1deg); }
+      50% { transform: scale(1.04) rotate(1deg); }
+      75% { transform: scale(1.12) rotate(-1deg); }
+      100% { transform: scale(1.06); }
+    }
+
+    canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+    touch-action:none;
+    -webkit-user-select:none;
+    user-select:none;
+    }
+
+    .cta-wrap {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin: 28px 0 20px;
+    }
+
+    .btn-action {
+      border: none;
+      min-width: min(100%, 540px);
+      padding: 22px 36px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: clamp(22px, 3vw, 34px);
+      font-weight: 1000;
+      color: white;
+      background: linear-gradient(90deg, #b21eff 0%, #544fff 48%, #1ad1ff 100%);
+      box-shadow:
+        0 0 0 2px rgba(255,255,255,0.12) inset,
+        0 12px 30px rgba(18, 163, 255, 0.24),
+        0 8px 22px rgba(178, 30, 255, 0.22);
+      transition: transform 0.18s ease, filter 0.18s ease, opacity 0.18s ease;
+    }
+
+    .btn-action:hover:not(:disabled) {
+      transform: translateY(-2px) scale(1.015);
+      filter: brightness(1.05);
+    }
+
+    .btn-action:active:not(:disabled) {
+      transform: translateY(0) scale(0.995);
+    }
+
+    .btn-action:disabled {
+      opacity: 0.58;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .security-card {
+      max-width: 980px;
+      margin: 0 auto 16px;
+      padding: 24px 24px;
+      border-radius: 28px;
+      background: rgba(8, 12, 30, 0.82);
+      border: 1px solid rgba(115, 75, 255, 0.28);
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .security-left {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .shield {
+      width: 72px;
+      height: 72px;
+      min-width: 72px;
+      display: grid;
+      place-items: center;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #8f2bff, #4514a1);
+      box-shadow: 0 0 22px rgba(179, 59, 255, 0.24);
+      font-size: 34px;
+    }
+
+    .security-left h3 {
+      font-size: clamp(22px, 2.8vw, 34px);
+      margin-bottom: 4px;
+    }
+
+    .security-left p {
+      color: var(--muted);
+      font-size: clamp(14px, 2vw, 20px);
+    }
+
+    .lock {
+      font-size: 42px;
+      filter: drop-shadow(0 0 12px rgba(36, 213, 255, 0.35));
+    }
+
+    .privacy-bar {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 16px 22px;
+      border-radius: 999px;
+      text-align: center;
+      color: var(--muted);
+      font-weight: 750;
+      background: rgba(7, 10, 24, 0.76);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 18px;
+      top: -30px;
+      border-radius: 4px;
+      opacity: 0.95;
+      z-index: 6;
+      pointer-events: none;
+      animation: confettiFall linear forwards;
+    }
+
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(850px) rotate(720deg); opacity: 0; }
+    }
+
+    .flash-win {
+      animation: glowWin 0.8s ease-in-out 2;
+    }
+
+    @keyframes glowWin {
+      0% {
+        box-shadow:
+          0 0 34px rgba(162, 83, 255, 0.24),
+          0 0 44px rgba(36, 213, 255, 0.14),
+          0 24px 60px rgba(0,0,0,0.38);
+      }
+      50% {
+        box-shadow:
+          0 0 0 4px rgba(255,255,255,0.08),
+          0 0 40px rgba(255, 94, 216, 0.28),
+          0 0 54px rgba(255, 214, 82, 0.34),
+          0 24px 60px rgba(0,0,0,0.42);
+      }
+      100% {
+        box-shadow:
+          0 0 34px rgba(162, 83, 255, 0.24),
+          0 0 44px rgba(36, 213, 255, 0.14),
+          0 24px 60px rgba(0,0,0,0.38);
+      }
+    }
+
+    .status-message {
+      text-align: center;
+      margin: 14px auto 0;
+      font-size: 16px;
+      color: var(--gold);
+      font-weight: 850;
+      min-height: 24px;
+    }
+
+    @media (max-width: 860px) {
+      .info-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .info-item:not(:last-child)::after {
+        width: auto;
+        height: 1px;
+        left: 18px;
+        right: 18px;
+        top: auto;
+        bottom: 0;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.16), transparent);
+      }
+
+      .security-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .app {
+        padding: 18px 12px 34px;
+      }
+
+      .top-badge {
+        font-size: 13px;
+        padding: 10px 16px;
+      }
+
+      .info-item {
+        padding: 18px 16px;
+        min-height: auto;
+      }
+
+      .icon-circle {
+        width: 60px;
+        height: 60px;
+        min-width: 60px;
+        font-size: 28px;
+      }
+
+      .btn-action {
+        width: 100%;
+        width:min(100%,540px);
+        padding: 18px 24px;
+      }
+
+      .security-card {
+        padding: 18px;
+      }
+
+      .shield {
+        width: 58px;
+        height: 58px;
+        min-width: 58px;
+        font-size: 28px;
+      }
+
+      .lock {
+        font-size: 34px;
+      }
+    }
+    .btn-premios{
+  padding:18px 35px;
+  border:none;
+  border-radius:999px;
+  cursor:pointer;
+
+  font-size:20px;
+  font-weight:900;
+
+  color:white;
+
+  background:
+  linear-gradient(
+    90deg,
+    #00bfff,
+    #0066ff
+  );
+
+  box-shadow:
+  0 0 20px rgba(0,191,255,.5);
+
+  transition:.3s;
+}
+
+.btn-premios:hover{
+  transform:translateY(-3px);
+}
+
+.modal-premios{
+  position:fixed;
+  inset:0;
+
+  display:none;
+  justify-content:center;
+  align-items:center;
+
+  background:rgba(0,0,0,.75);
+
+  backdrop-filter:blur(10px);
+
+  z-index:9999;
+}
+
+.modal-premios.active{
+  display:flex;
+}
+
+.premios-box{
+  width:min(95vw,550px);
+  max-height:85vh;
+
+  border-radius:25px;
+
+  overflow-y:auto;
+  padding:25px;
+  
+  background:linear-gradient(
+        180deg,
+        #041329,
+        #071c3a
+    );
+
+    border:1px solid rgba(0,200,255,.35);
+
+    box-shadow:
+        0 0 40px rgba(0,200,255,.25);
+
+    border-radius:25px;
+    padding:25px;
+}
+
+
+.premios-box h2{
+  margin-bottom:25px;
+}
+
+.premio-item{
+  font-size:28px;
+    padding:18px;
+    text-align:center;
+}
+
+.premio-50{
+    background:linear-gradient(
+        180deg,
+        #ffd84d,
+        #ffb300
+    );
+
+    color:#111;
+
+    box-shadow:
+        0 0 25px rgba(255,200,0,.6);
+}
+
+.premio-30{
+    background:linear-gradient(
+        180deg,
+        #37d8ff,
+        #008cff
+    );
+
+    color:white;
+
+    box-shadow:
+        0 0 25px rgba(0,200,255,.6);
+}
+
+.premio-20{
+    background:linear-gradient(
+        180deg,
+        #2962ff,
+        #0039cb
+    );
+
+    color:white;
+
+    box-shadow:
+        0 0 25px rgba(41,98,255,.6);
+}
+
+.premio-10{
+    background:linear-gradient(
+        180deg,
+        #26e6c4,
+        #00b894
+    );
+
+    color:white;
+
+    box-shadow:
+        0 0 25px rgba(0,255,180,.5);
+}
+
+.premio-2000{
+    background:linear-gradient(
+        180deg,
+        #ff9f1a,
+        #ff6f00
+    );
+
+    color:white;
+}
+
+.premio-5000{
+    background:linear-gradient(
+        180deg,
+        #ff4fa3,
+        #e91e63
+    );
+
+    color:white;
+}
+
+.premio-10000{
+    background:linear-gradient(
+        180deg,
+        #c45cff,
+        #8e24aa
+    );
+
+    color:white;
+}
+
+.cerrar-modal{
+  position:absolute;
+  right:15px;
+  top:15px;
+
+  border:none;
+  background:none;
+
+  color:white;
+  font-size:24px;
+  cursor:pointer;
+}
+.icon-circle{
+    font-size:30px;
+
+    box-shadow:
+        0 0 15px rgba(0,200,255,.5),
+        0 0 30px rgba(0,200,255,.25);
+
+    animation: iconPulse 3s infinite;
+}
+
+@keyframes iconPulse{
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.08);
+    }
+}
+
+@media (max-width:600px){
+
+  .premio-item{
+      font-size:18px;
+      padding:12px;
+  }
+
+  .premios-box h2{
+      font-size:26px;
+  }
+
+  .btn-premios{
+      width:100%;
+      font-size:16px;
+      padding:15px;
+  }
+
+}
+
+@media (max-width:600px){
+
+  .info-item{
+      gap:12px;
+  }
+
+  .info-text h3{
+      font-size:16px;
+  }
+
+  .info-text p{
+      font-size:13px;
+  }
+
+}
+@media (max-width:600px){
+
+  .logo-container img{
+      width:100%;
+  }
+
+  .logo-container::before{
+      width:320px;
+      height:320px;
+  }
+
+}
+@media (max-width:600px){
+
+  .btn-action{
+      width:100%;
+      font-size:18px;
+      padding:18px;
+  }
+
+}
+.logo-container{
+    margin-bottom:40px;
+}
+
+.logo-container img{
+    width:min(420px,90%);
+    max-width:100%;
+}
+@media (max-width:600px){
+
+    .logo-container img{
+        width:90%;
+        max-width:320px;
+    }
+
+}
+@media (max-width:768px){
+
+    .info-strip{
+        grid-template-columns:1fr;
+    }
+
+    .info-item{
+        padding:16px;
+    }
+
+    .hero-sub{
+        font-size:18px;
+    }
+
+}
+button,
+input,
+textarea{
+    font-size:16px;
+}
+  </style>
+</head>
+<meta name="theme-color" content="#041329">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<body>
+  <div class="modal-premios" id="modalPremios">
+
+  <div class="premios-box">
+
+    <button class="cerrar-modal" onclick="cerrarPremios()">
+      ✕
+    </button>
+
+    <h2>🏆 PREMIOS DISPONIBLES</h2>
+
+    <div class="premio-item premio-50">
+      👑 ADICIONAL 50%
+    </div>
+
+    <div class="premio-item premio-30">
+      👑 ADICIONAL 30%
+    </div>
+
+    <div class="premio-item premio-20">
+      👑 ADICIONAL 20%
+    </div>
+
+    <div class="premio-item premio-10">
+      👑 ADICIONAL 10%
+    </div>
+
+    <div class="premio-item premio-2000">
+      🎰2.000 DE SALDO
+    </div>
+
+    <div class="premio-item premio-5000">
+      🎰5.000 DE SALDO
+    </div>
+
+    <div class="premio-item premio-10000">
+      🎰10.000 DE SALDO
+    </div>
+
+    <p class="premio-info">
+      Cada raspadita tiene un resultado aleatorio.
+    </p>
+
+  </div>
+
+</div>
+  <main class="app">
+    <div class="top-badge">✨ TARJETA SORPRESA ✨ <span>ADICIONAL DIARIO</span></div>
+
+    <section class="hero">
+      <div class="logo-container">
+        <img src="Icono/Next Level.png" alt="Next Level">
+      </div>
+      <p class="hero-sub">Raspá y descubrí tu resultado <strong>¡podés ganar hasta 50% extra!</strong></p>
+      <div class="highlight-pill">Disponible <strong>1 vez por día</strong></div>
+    </section>
+
+    <section class="info-strip">
+      <article class="info-item">
+        <div class="icon-circle">💎</div>
+        <div class="info-text">
+          <h3>Adicionales exclusivos</h3>
+          <p>Participá y descubrí tu beneficio del día.</p>
+        </div>
+      </article>
+      <article class="info-item">
+        <div class="icon-circle blue">⚡</div>
+        <div class="info-text">
+          <h3>Raspá</h3>
+          <p>Deslizá el dedo o el mouse para revelar tu resultado.</p>
+        </div>
+      </article>
+      <article class="info-item">
+        <div class="icon-circle purple">📸</div>
+        <div class="info-text">
+          <h3>Enviá captura</h3>
+          <p>Mandanos el resultado con el código visible para validarlo.</p>
+        </div>
+      </article>
+    </section>
+
+    <div class="hint">👇 Raspá acá 👇</div>
+    <div class="cta-wrap">
+  <button class="btn-premios" onclick="abrirPremios()">
+    🎁 VER POSIBLES PREMIOS
+  </button>
+</div>
+
+    <section class="scratch-shell" id="scratchShell">
+      <div class="scratch-wrapper" id="scratchWrapper">
+        <div class="reward" id="rewardBox">
+          <div class="reward-inner">
+            <div class="reward-top" id="rewardTop">¡FELICITACIONES!</div>
+            <div class="reward-main" id="rewardMain">WOW</div>
+            <div class="reward-bottom" id="rewardBottom">MENSAJE ESPECIAL</div>
+            <div class="reward-note" id="rewardNote">Raspá para descubrirlo.</div>
+            <div class="validation-code" id="validationCode"></div>
+          </div>
+        </div>
+        <canvas id="scratchCanvas"></canvas>
+      </div>
+    </section>
+
+    <div class="cta-wrap">
+      <button class="btn-action" id="actionBtn" type="button" onclick="focusScratch()">👆 RASPÁ LA TARJETA</button>
+    </div>
+
+    <div class="status-message" id="statusMessage"></div>
+
+    <section class="security-card">
+      <div class="security-left">
+        <div class="shield">🛡️</div>
+        <div>
+          <h3>Hacé una captura y pasánosla</h3>
+          <p>El código visible ayuda a validar tu adicional con atención.</p>
+        </div>
+      </div>
+      <div class="lock">💎</div>
+    </section>
+
+    <div class="privacy-bar">La tarjeta se guarda en este navegador para limitar la experiencia a una vez por día. La acreditación queda sujeta a validación.</div>
+  </main>
+
+  <script>
+    const STORAGE_DATE_KEY = "raspadita_fecha_uso";
+    const STORAGE_RESULT_KEY = "raspadita_resultado";
+    const REVEAL_THRESHOLD = 42;
+
+    const canvas = document.getElementById("scratchCanvas");
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    const wrapper = document.getElementById("scratchWrapper");
+    const shell = document.getElementById("scratchShell");
+    const rewardBox = document.getElementById("rewardBox");
+    const rewardTop = document.getElementById("rewardTop");
+    const rewardMain = document.getElementById("rewardMain");
+    const rewardBottom = document.getElementById("rewardBottom");
+    const rewardNote = document.getElementById("rewardNote");
+    const validationCode = document.getElementById("validationCode");
+    const actionBtn = document.getElementById("actionBtn");
+    const statusMessage = document.getElementById("statusMessage");
+
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+    let revealCheckCounter = 0;
+    let revealed = false;
+    let actualReward = null;
+
+    const rewards = [
+      {
+        top: "¡FELICITACIONES!",
+        main: "WOW",
+        bottom: " ADICIONAL 10%",
+        note: "Empezá con ventaja. Mandanos captura para activarlo.",
+        weight: 30,
+        big: false
+      },
+      {
+        top: "¡GENIAL!",
+        main: "TOP",
+        bottom: " ADICIONAL 20%",
+        note: "Aprovechá este 20% extra y dale con todo.",
+        weight: 30,
+        big: false
+      },
+      {
+        top: "¡QUÉ BIEN!",
+        main: "ESPECIAL",
+        bottom: " ADICIONAL 30%",
+        note: "Potenciá tus chances con el 30% extra.",
+        weight: 20,
+        big: false
+      },
+      {
+        top: "INCREÍBLE",
+        main: "MEGA",
+        bottom: " ADICIONAL 50%",
+        note: "Premio grande. Enviá captura y código para validarlo 👑.",
+        weight: 5,
+        big: true
+      },
+      {
+        top: "¡CASI!",
+        main: "UHHH",
+        bottom: "HOY TOCÓ ESPERAR",
+        note: "Mandanos captura igual y te avisamos la próxima oportunidad 🔥.",
+        weight: 15,
+        big: false
+      }
+    ];
+
+    function getTodayKey() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const day = String(now.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function yaUsoHoy() {
+      return localStorage.getItem(STORAGE_DATE_KEY) === getTodayKey();
+    }
+
+    function marcarUsoHoy() {
+      localStorage.setItem(STORAGE_DATE_KEY, getTodayKey());
+    }
+
+    function generarCodigo() {
+      const compactDate = getTodayKey().replaceAll("-", "");
+      const randomPart = Math.random().toString(36).slice(2, 7).toUpperCase();
+      return `RS-${compactDate}-${randomPart}`;
+    }
+
+    function guardarResultado(item) {
+      const saved = {
+        ...item,
+        date: getTodayKey(),
+        code: item.code || generarCodigo()
+      };
+
+      localStorage.setItem(STORAGE_RESULT_KEY, JSON.stringify(saved));
+      return saved;
+    }
+
+    function obtenerResultadoGuardado() {
+      try {
+        const raw = localStorage.getItem(STORAGE_RESULT_KEY);
+        if (!raw) return null;
+
+        const saved = JSON.parse(raw);
+        if (saved.date !== getTodayKey()) return null;
+
+        return saved;
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function pickReward(items) {
+      const totalWeight = items.reduce((sum, item) => sum + item.weight, 0);
+      let random = Math.random() * totalWeight;
+
+      for (const item of items) {
+        if (random < item.weight) return { ...item };
+        random -= item.weight;
+      }
+
+      return { ...items[items.length - 1] };
+    }
+
+    function resizeCanvas() {
+      const rect = wrapper.getBoundingClientRect();
+      canvas.width = Math.floor(rect.width);
+      canvas.height = Math.floor(rect.height);
+
+      ctx.globalCompositeOperation = "source-over";
+
+      const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+      grad.addColorStop(0, "#fff7fa");
+      grad.addColorStop(0.18, "#ece7f5");
+      grad.addColorStop(0.45, "#c1bfd0");
+      grad.addColorStop(0.7, "#9da2b1");
+      grad.addColorStop(1, "#f8fbff");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      const shine = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+      shine.addColorStop(0, "rgba(255,255,255,0.75)");
+      shine.addColorStop(0.22, "rgba(255,255,255,0.18)");
+      shine.addColorStop(0.5, "rgba(255,255,255,0.06)");
+      shine.addColorStop(1, "rgba(255,255,255,0.28)");
+      ctx.fillStyle = shine;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < 1400; i++) {
+        const alpha = Math.random() * 0.16;
+        const size = Math.random() * 2.2 + 0.5;
+        ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+        ctx.fillRect(
+          Math.random() * canvas.width,
+          Math.random() * canvas.height,
+          size,
+          size
+        );
+      }
+
+      for (let i = 0; i < 64; i++) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const r = Math.random() * 18 + 8;
+        const spark = ctx.createRadialGradient(x, y, 0, x, y, r);
+        spark.addColorStop(0, "rgba(255,255,255,0.3)");
+        spark.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.fillStyle = spark;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function getPos(event) {
+      const rect = canvas.getBoundingClientRect();
+      const point = event.touches ? event.touches[0] : event;
+      return {
+        x: point.clientX - rect.left,
+        y: point.clientY - rect.top
+      };
+    }
+
+    function scratchLine(x, y) {
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.lineWidth = Math.max(36, canvas.width * 0.055);
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(x, y);
+      ctx.stroke();
+
+      lastX = x;
+      lastY = y;
+    }
+
+    function start(event) {
+      if (revealed || yaUsoHoy()) return;
+      isDrawing = true;
+      const pos = getPos(event);
+      lastX = pos.x;
+      lastY = pos.y;
+      scratchLine(pos.x, pos.y);
+      event.preventDefault();
+    }
+
+    function move(event) {
+      if (!isDrawing || revealed || yaUsoHoy()) return;
+      const pos = getPos(event);
+      scratchLine(pos.x, pos.y);
+      revealCheckCounter++;
+
+      if (revealCheckCounter % 7 === 0) {
+        checkRevealFast();
+      }
+
+      event.preventDefault();
+    }
+
+    function end() {
+      isDrawing = false;
+      if (!revealed && !yaUsoHoy()) checkRevealFast();
+    }
+
+    function launchConfetti() {
+      const colors = ["#ffd84d", "#24d5ff", "#c44dff", "#ffffff", "#ff73d8"];
+
+      for (let i = 0; i < 90; i++) {
+        const piece = document.createElement("div");
+        piece.className = "confetti";
+        piece.style.left = Math.random() * 100 + "%";
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.width = 6 + Math.random() * 8 + "px";
+        piece.style.height = 10 + Math.random() * 14 + "px";
+        piece.style.animationDuration = 2.1 + Math.random() * 1.9 + "s";
+        piece.style.transform = `translateY(0) rotate(${Math.random() * 360}deg)`;
+        shell.appendChild(piece);
+
+        setTimeout(() => piece.remove(), 4300);
+      }
+    }
+
+    function triggerBigWin() {
+      rewardBox.classList.add("big-win");
+      shell.classList.add("flash-win");
+      launchConfetti();
+
+      setTimeout(() => {
+        shell.classList.remove("flash-win");
+      }, 1600);
+    }
+
+    function checkRevealFast() {
+      const image = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const pixels = image.data;
+      let transparent = 0;
+      let total = 0;
+
+      for (let i = 3; i < pixels.length; i += 40) {
+        total++;
+        if (pixels[i] === 0) transparent++;
+      }
+
+      const percent = (transparent / total) * 100;
+
+      if (percent > REVEAL_THRESHOLD && !revealed) {
+        revelarResultado();
+      }
+    }
+
+    function revelarResultado() {
+      revealed = true;
+      actualReward = guardarResultado(actualReward);
+      applyRewardContent(actualReward);
+      marcarUsoHoy();
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      canvas.style.opacity = "0";
+      rewardBox.classList.add("revealed");
+      bloquearPorHoy();
+
+      if (actualReward?.big) {
+        triggerBigWin();
+      }
+    }
+
+    function applyRewardContent(item) {
+      rewardTop.textContent = item.top;
+      rewardMain.textContent = item.main;
+      rewardBottom.textContent = item.bottom;
+      rewardNote.textContent = item.note;
+      validationCode.textContent = item.code ? `CÓDIGO: ${item.code}` : "";
+    }
+
+    function bloquearPorHoy() {
+      actionBtn.innerText = "YA USASTE TU TARJETA DE HOY";
+      actionBtn.disabled = true;
+      statusMessage.textContent = "Enviá captura con el código visible para validar tu resultado ✨";
+    }
+
+    function habilitarParaHoy() {
+      actionBtn.innerText = "👆 RASPÁ LA TARJETA";
+      actionBtn.disabled = false;
+      statusMessage.textContent = "";
+    }
+
+    function focusScratch() {
+      if (yaUsoHoy()) {
+        bloquearPorHoy();
+        return;
+      }
+
+      shell.scrollIntoView({ behavior: "smooth", block: "center" });
+      shell.classList.add("attention");
+      setTimeout(() => shell.classList.remove("attention"), 1700);
+    }
+
+    function prepararTarjeta() {
+      const saved = obtenerResultadoGuardado();
+
+      if (yaUsoHoy() && saved) {
+        actualReward = saved;
+        applyRewardContent(saved);
+        revealed = true;
+        canvas.style.opacity = "0";
+        rewardBox.classList.add("revealed");
+        bloquearPorHoy();
+        return;
+      }
+
+      if (yaUsoHoy() && !saved) {
+        applyRewardContent({
+          top: "✨ TARJETA SORPRESA",
+          main: "LISTO",
+          bottom: "Ya descubriste tu resultado de hoy",
+          note: "Volvé mañana para una nueva oportunidad.",
+          code: ""
+        });
+        revealed = true;
+        canvas.style.opacity = "0";
+        rewardBox.classList.add("revealed");
+        bloquearPorHoy();
+        return;
+      }
+
+      habilitarParaHoy();
+      actualReward = pickReward(rewards);
+      applyRewardContent(actualReward);
+      rewardBox.classList.remove("revealed", "big-win");
+      shell.classList.remove("flash-win");
+      revealed = false;
+      canvas.style.opacity = "1";
+      revealCheckCounter = 0;
+      document.querySelectorAll(".confetti").forEach(el => el.remove());
+      resizeCanvas();
+    }
+
+    canvas.addEventListener("mousedown", start);
+    canvas.addEventListener("mousemove", move);
+    window.addEventListener("mouseup", end);
+
+    canvas.addEventListener("touchstart", start, { passive: false });
+    canvas.addEventListener("touchmove", move, { passive: false });
+    window.addEventListener("touchend", end);
+
+    window.addEventListener("resize", () => {
+      if (!revealed && !yaUsoHoy()) {
+        resizeCanvas();
+      }
+    });
+
+    prepararTarjeta();
+    
+    function abrirPremios(){
+  document
+    .getElementById("modalPremios")
+    .classList.add("active");
+}
+
+function cerrarPremios(){
+  document
+    .getElementById("modalPremios")
+    .classList.remove("active");
+}
+  </script>
+</body>
+</html>
