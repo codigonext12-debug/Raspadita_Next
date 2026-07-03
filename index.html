@@ -1496,6 +1496,14 @@ Tu tarjeta diaria queda registrada en este dispositivo.
       lastY = pos.y;
       scratchLine(pos.x, pos.y);
       event.preventDefault();
+      if(!localStorage.getItem("premio_bloqueado")){
+
+    actualReward.code = generarCodigo();
+
+    localStorage.setItem(
+        "premio_bloqueado",
+        JSON.stringify(actualReward)
+    );
     }
 
     function move(event) {
@@ -1638,6 +1646,19 @@ Tu tarjeta diaria queda registrada en este dispositivo.
       }
 
       habilitarParaHoy();
+      const premioBloqueado =
+    localStorage.getItem("premio_bloqueado");
+
+if(premioBloqueado){
+
+    actualReward =
+        JSON.parse(premioBloqueado);
+
+}else{
+
+    actualReward =
+        pickReward(rewards);
+}
       actualReward = pickReward(rewards);
       applyRewardContent(actualReward);
       rewardBox.classList.remove("revealed", "big-win");
