@@ -258,29 +258,33 @@ body{
     }
 }
 
-    .info-strip {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      margin: 0 auto 18px;
-      background: rgba(7, 12, 31, 0.82);
-      border: 1px solid rgba(67, 132, 255, 0.28);
-      border-radius: 30px;
-      box-shadow: var(--shadow-md);
-      overflow: hidden;
-    }
+.info-strip{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
 
-    .info-item{
+    margin:0 auto 20px;
 
-    background:rgba(2,10,25,.78);
-
-    backdrop-filter:blur(16px);
+    background:rgba(2,10,25,.82);
 
     border:1px solid rgba(0,220,255,.18);
 
-    box-shadow:
-        0 10px 30px rgba(0,0,0,.35),
-        0 0 20px rgba(0,220,255,.08);
+    border-radius:30px;
 
+    overflow:visible;
+}
+
+.info-item{
+
+    display:flex;
+    align-items:flex-start;
+
+    gap:18px;
+
+    padding:24px;
+
+    min-height:160px;
+
+    position:relative;
 }
 
     .info-item:not(:last-child)::after {
@@ -316,16 +320,27 @@ body{
       box-shadow: 0 0 24px rgba(196, 77, 255, 0.34);
     }
 
-    .info-text h3 {
-      font-size: clamp(18px, 2vw, 24px);
-      margin-bottom: 6px;
-    }
+   .info-text h3{
 
-    .info-text p {
-      color: var(--muted);
-      font-size: clamp(14px, 1.7vw, 18px);
-      line-height: 1.35;
-    }
+    font-size:32px;
+
+    margin-bottom:10px;
+
+    line-height:1.1;
+}
+
+.info-text{
+    flex:1;
+}
+
+    .info-text p{
+
+    color:#d7e6ff;
+
+    font-size:22px;
+
+    line-height:1.45;
+}
 
     .hint {
       text-align: center;
@@ -946,19 +961,25 @@ body{
 
 }
 
-@media (max-width:600px){
+@media (max-width:900px){
 
-  .info-item{
-      gap:12px;
-  }
+    .info-strip{
+        grid-template-columns:1fr;
+    }
 
-  .info-text h3{
-      font-size:16px;
-  }
+    .info-item{
+        min-height:auto;
+    }
 
-  .info-text p{
-      font-size:13px;
-  }
+    .info-text h3{
+        font-size:22px;
+    }
+
+    .info-text p{
+        font-size:16px;
+    }
+
+}
 
 }
 @media (max-width:600px){
@@ -1565,4 +1586,3 @@ function cerrarPremios(){
   </script>
 </body>
 </html>
-<div class=""></div>
