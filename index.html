@@ -98,6 +98,12 @@ body{
     padding:25px;
 
     margin-bottom:25px;
+    background:rgba(2,10,25,.78);
+
+border:1px solid rgba(255,216,77,.15);
+
+box-shadow:
+0 0 40px rgba(255,216,77,.08);
     }
 
     .kicker {
@@ -365,6 +371,8 @@ body{
       margin: 0 auto;
       padding: 4px;
       border-radius: 36px;
+      margin-top:-15px;
+      animation:scratchFloat 4s ease-in-out infinite;
       background: linear-gradient(90deg, #ff53d8, #ff9f3f, #39d9ff, #8e5eff);
       box-shadow:
         0 0 34px rgba(162, 83, 255, 0.24),
@@ -981,7 +989,7 @@ body{
 
 }
 
-}
+
 @media (max-width:600px){
 
   .logo-container img{
@@ -1064,6 +1072,79 @@ textarea{
 
     50%{
         transform:translateY(10px);
+    }
+}
+
+body::before{
+    content:"";
+
+    position:fixed;
+    inset:0;
+
+    background:
+    radial-gradient(
+        circle at center,
+        rgba(0,220,255,.15),
+        transparent 60%
+    );
+
+    animation:fondoPulse 8s ease-in-out infinite;
+
+    pointer-events:none;
+    z-index:0;
+}
+
+@keyframes fondoPulse{
+
+    0%,100%{
+        opacity:.4;
+        transform:scale(1);
+    }
+
+    50%{
+        opacity:.8;
+        transform:scale(1.15);
+    }
+}
+
+.app::before{
+    content:"";
+
+    position:fixed;
+    inset:0;
+
+    background-image:
+    radial-gradient(#00dfff 1px, transparent 1px);
+
+    background-size:120px 120px;
+
+    opacity:.25;
+
+    animation:starsMove 40s linear infinite;
+
+    pointer-events:none;
+    z-index:-1;
+}
+
+@keyframes starsMove{
+
+    from{
+        transform:translateY(0);
+    }
+
+    to{
+        transform:translateY(-300px);
+    }
+}
+
+@keyframes scratchFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-8px);
     }
 }
   </style>
