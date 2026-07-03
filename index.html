@@ -395,10 +395,10 @@ box-shadow:
       0%, 100% { transform: scale(1); filter: brightness(1); }
       50% { transform: scale(1.015); filter: brightness(1.15); }
     }
-    @media (max-width:600px){
+    @media (max-width:768px){
 
   .scratch-wrapper{
-      aspect-ratio:1.4 / 1;
+      aspect-ratio:1.8 / 1;
   }
 
 }
@@ -600,15 +600,15 @@ box-shadow:
     }
 
     .shield {
-      width: 72px;
-      height: 72px;
-      min-width: 72px;
+      width: 55px;
+      height: 55px;
+      min-width: 55px;
       display: grid;
       place-items: center;
       border-radius: 22px;
       background: linear-gradient(180deg, #8f2bff, #4514a1);
       box-shadow: 0 0 22px rgba(179, 59, 255, 0.24);
-      font-size: 34px;
+      font-size: 24px;
     }
 
     .security-left h3 {
@@ -705,10 +705,28 @@ box-shadow:
         background: linear-gradient(90deg, transparent, rgba(255,255,255,0.16), transparent);
       }
 
-      .security-card {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+      @media (max-width:768px){
+
+    .security-card{
+        display:flex;
+        flex-direction:row;
+
+        align-items:center;
+
+        gap:16px;
+
+        padding:20px;
+    }
+
+    .security-left{
+        flex:1;
+    }
+
+    .lock{
+        display:none;
+    }
+
+}
     }
 
     @media (max-width: 560px) {
@@ -1002,12 +1020,12 @@ box-shadow:
   }
 
 }
-@media (max-width:600px){
+@media (max-width:768px){
 
   .btn-action{
       width:100%;
-      font-size:18px;
-      padding:18px;
+      font-size:20px;
+      padding:16px 20px;
   }
 
 }
@@ -1272,7 +1290,9 @@ body::before{
       <div class="lock">💎</div>
     </section>
 
-    <div class="privacy-bar">La tarjeta se guarda en este navegador para limitar la experiencia a una vez por día. La acreditación queda sujeta a validación.</div>
+    <div class="privacy-bar">
+Tu tarjeta diaria queda registrada en este dispositivo.
+</div>
   </main>
 
   <script>
@@ -1333,14 +1353,6 @@ body::before{
         weight: 5,
         big: true
       },
-      {
-        top: "¡CASI!",
-        main: "UHHH",
-        bottom: "HOY TOCÓ ESPERAR",
-        note: "Mandanos captura igual y te avisamos la próxima oportunidad 🔥.",
-        weight: 15,
-        big: false
-      }
     ];
 
     function getTodayKey() {
