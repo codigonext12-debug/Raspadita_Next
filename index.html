@@ -1502,9 +1502,12 @@ Tu tarjeta diaria queda registrada en este dispositivo.
     actualReward.code = generarCodigo();
 
     localStorage.setItem(
-        "premio_bloqueado",
-        JSON.stringify(actualReward)
-    );
+    "premio_bloqueado",
+    JSON.stringify({
+        ...actualReward,
+        date:getTodayKey()
+    })
+);
     }
   }
 
@@ -1686,16 +1689,7 @@ if(premioBloqueado){
     });
 
     prepararTarjeta();
-    const bloqueado =
-    JSON.parse(
-        localStorage.getItem("premio_bloqueado") || "null"
-    );
 
-if(bloqueado && bloqueado.date !== getTodayKey()){
-
-    localStorage.removeItem("premio_bloqueado");
-}
-    
     function abrirPremios(){
   document
     .getElementById("modalPremios")
@@ -1707,6 +1701,17 @@ function cerrarPremios(){
     .getElementById("modalPremios")
     .classList.remove("active");
 }
+
+   const bloqueado =
+    JSON.parse(
+        localStorage.getItem("premio_bloqueado") || "null"
+    );
+
+if(bloqueado && bloqueado.date !== getTodayKey()){
+
+    localStorage.removeItem("premio_bloqueado");
+}
+
   </script>
 </body>
 </html>
