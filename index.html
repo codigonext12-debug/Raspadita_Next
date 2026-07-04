@@ -1095,21 +1095,15 @@ textarea{
 
 body::before{
     content:"";
-
     position:fixed;
     inset:0;
 
-    background:
-    radial-gradient(
-        circle at center,
-        rgba(0,220,255,.15),
-        transparent 60%
-    );
+    background:url("fondo/Next.png") center center;
+    background-size:cover;
 
-    animation:fondoPulse 8s ease-in-out infinite;
+    animation:fondoZoom 25s ease-in-out infinite;
 
-    pointer-events:none;
-    z-index:0;
+    z-index:-2;
 }
 
 @keyframes fondoPulse{
@@ -1228,6 +1222,29 @@ body::after{
     50%{
         transform:scale(1.15);
         opacity:.9;
+    }
+}
+
+@keyframes cinematicMove{
+
+    0%{
+        transform:scale(1) translate(0,0);
+    }
+
+    25%{
+        transform:scale(1.08) translate(-10px,-5px);
+    }
+
+    50%{
+        transform:scale(1.12) translate(10px,5px);
+    }
+
+    75%{
+        transform:scale(1.08) translate(-5px,10px);
+    }
+
+    100%{
+        transform:scale(1) translate(0,0);
     }
 }
   </style>
