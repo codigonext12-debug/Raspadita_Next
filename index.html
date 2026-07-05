@@ -1247,6 +1247,156 @@ body::after{
         transform:scale(1) translate(0,0);
     }
 }
+
+@keyframes fondoZoom{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.12);
+    }
+}
+
+.premios-grid{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-top:20px;
+}
+
+.premio-card{
+
+    display:flex;
+    align-items:center;
+    gap:18px;
+
+    padding:18px;
+
+    border-radius:20px;
+
+    backdrop-filter:blur(12px);
+
+    transition:.3s ease;
+
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.premio-card:hover{
+    transform:translateY(-3px);
+}
+
+.premio-icon{
+    width:60px;
+    height:60px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:18px;
+
+    font-size:28px;
+
+    flex-shrink:0;
+}
+
+.premio-info h3{
+    margin:0;
+    font-size:26px;
+    font-weight:900;
+    color:white;
+}
+
+.premio-info p{
+    margin-top:4px;
+    color:#cbd5e1;
+    font-size:14px;
+}
+
+/* Legendario */
+
+.legendario{
+    background:rgba(255,191,0,.12);
+    border-color:#ffd84d;
+    box-shadow:0 0 30px rgba(255,216,77,.25);
+}
+
+.legendario .premio-icon{
+    background:linear-gradient(135deg,#ffd84d,#ffb300);
+}
+
+/* Épico */
+
+.epico{
+    background:rgba(0,220,255,.10);
+    border-color:#31d4ff;
+    box-shadow:0 0 25px rgba(49,212,255,.20);
+}
+
+.epico .premio-icon{
+    background:linear-gradient(135deg,#31d4ff,#0ea5e9);
+}
+
+/* Raro */
+
+.raro{
+    background:rgba(59,130,246,.10);
+    border-color:#3b82f6;
+}
+
+.raro .premio-icon{
+    background:linear-gradient(135deg,#3b82f6,#1d4ed8);
+}
+
+/* Común */
+
+.comun{
+    background:rgba(16,185,129,.10);
+    border-color:#10b981;
+}
+
+.comun .premio-icon{
+    background:linear-gradient(135deg,#10b981,#14b8a6);
+}
+
+/* Saldos */
+
+.saldo1{
+    background:rgba(249,115,22,.10);
+    border-color:#f97316;
+}
+
+.saldo1 .premio-icon{
+    background:linear-gradient(135deg,#f97316,#fb923c);
+}
+
+.saldo2{
+    background:rgba(236,72,153,.10);
+    border-color:#ec4899;
+}
+
+.saldo2 .premio-icon{
+    background:linear-gradient(135deg,#ec4899,#f472b6);
+}
+
+.saldo3{
+    background:rgba(168,85,247,.10);
+    border-color:#a855f7;
+    box-shadow:0 0 25px rgba(168,85,247,.18);
+}
+
+.saldo3 .premio-icon{
+    background:linear-gradient(135deg,#a855f7,#c084fc);
+}
+
+.premios-nota{
+    margin-top:18px;
+    text-align:center;
+    color:#94a3b8;
+    font-size:14px;
+}
   </style>
 </head>
 <meta name="theme-color" content="#041329">
@@ -1263,37 +1413,69 @@ body::after{
 
     <h2>🏆 PREMIOS DISPONIBLES</h2>
 
-    <div class="premio-item premio-50">
-      👑 ADICIONAL 50%
+<div class="premios-grid">
+
+    <div class="premio-card legendario">
+        <div class="premio-icon">👑</div>
+        <div class="premio-info">
+            <h3>ADICIONAL 50%</h3>
+            <p>Premio Legendario</p>
+        </div>
     </div>
 
-    <div class="premio-item premio-30">
-      👑 ADICIONAL 30%
+    <div class="premio-card epico">
+        <div class="premio-icon">💎</div>
+        <div class="premio-info">
+            <h3>ADICIONAL 30%</h3>
+            <p>Premio Épico</p>
+        </div>
     </div>
 
-    <div class="premio-item premio-20">
-      👑 ADICIONAL 20%
+    <div class="premio-card raro">
+        <div class="premio-icon">⚡</div>
+        <div class="premio-info">
+            <h3>ADICIONAL 20%</h3>
+            <p>Premio Raro</p>
+        </div>
     </div>
 
-    <div class="premio-item premio-10">
-      👑 ADICIONAL 10%
+    <div class="premio-card comun">
+        <div class="premio-icon">🎁</div>
+        <div class="premio-info">
+            <h3>ADICIONAL 10%</h3>
+            <p>Premio Común</p>
+        </div>
     </div>
 
-    <div class="premio-item premio-2000">
-      🎰2.000 DE SALDO
+    <div class="premio-card saldo1">
+        <div class="premio-icon">💰</div>
+        <div class="premio-info">
+            <h3>2.000 DE SALDO</h3>
+            <p>Bono Extra</p>
+        </div>
     </div>
 
-    <div class="premio-item premio-5000">
-      🎰5.000 DE SALDO
+    <div class="premio-card saldo2">
+        <div class="premio-icon">🎰</div>
+        <div class="premio-info">
+            <h3>5.000 DE SALDO</h3>
+            <p>Bono Premium</p>
+        </div>
     </div>
 
-    <div class="premio-item premio-10000">
-      🎰10.000 DE SALDO
+    <div class="premio-card saldo3">
+        <div class="premio-icon">🏆</div>
+        <div class="premio-info">
+            <h3>10.000 DE SALDO</h3>
+            <p>Gran Premio</p>
+        </div>
     </div>
 
-    <p class="premio-info">
-      Cada raspadita tiene un resultado aleatorio.
-    </p>
+</div>
+
+<p class="premios-nota">
+Cada raspadita tiene un resultado aleatorio.
+</p>
 
   </div>
 
