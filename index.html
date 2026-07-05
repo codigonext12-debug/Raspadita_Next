@@ -26,7 +26,7 @@
     }
 
 body{
-    min-height:100vh;
+    min-height:100dvh;
     font-family:Inter, Arial, sans-serif;
     color:#f8fbff;
 
@@ -40,7 +40,7 @@ body{
     background-size:cover;
     background-position:center center;
     background-repeat:no-repeat;
-    background-attachment:fixed;
+    background-attachment:scroll;
 
     overflow-x:hidden;
 }
@@ -537,6 +537,7 @@ box-shadow:
       height: 100%;
       z-index: 2;
     touch-action:none;
+    -webkit-touch-callout:none;
     -webkit-user-select:none;
     user-select:none;
     }
@@ -842,6 +843,8 @@ box-shadow:
 
     border-radius:25px;
     padding:25px;
+    -webkit-overflow-scrolling:touch;
+
 }
 
 
@@ -1415,6 +1418,23 @@ body::after{
     box-shadow:
         0 0 15px #24d5ff;
 }
+
+@media (max-width:768px){
+
+    .info-item{
+        min-height:auto;
+        padding:20px;
+    }
+
+    .info-text h3{
+        font-size:24px;
+    }
+
+    .info-text p{
+        font-size:17px;
+    }
+
+}
   </style>
 </head>
 <meta name="theme-color" content="#041329">
@@ -1975,6 +1995,16 @@ if(premioBloqueado){
       }
     });
 
+     const bloqueado =
+    JSON.parse(
+        localStorage.getItem("premio_bloqueado") || "null"
+    );
+
+if(bloqueado && bloqueado.date !== getTodayKey()){
+
+    localStorage.removeItem("premio_bloqueado");
+}
+
     prepararTarjeta();
 
     function abrirPremios(){
@@ -1987,16 +2017,6 @@ function cerrarPremios(){
   document
     .getElementById("modalPremios")
     .classList.remove("active");
-}
-
-   const bloqueado =
-    JSON.parse(
-        localStorage.getItem("premio_bloqueado") || "null"
-    );
-
-if(bloqueado && bloqueado.date !== getTodayKey()){
-
-    localStorage.removeItem("premio_bloqueado");
 }
 
   </script>
