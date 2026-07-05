@@ -350,10 +350,11 @@ box-shadow:
 
     .hint {
       text-align: center;
-      font-size: clamp(20px, 3vw, 28px);
-      font-weight: 950;
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 900;
       color:#ffd84d;
-      margin: 18px 0 14px;
+      margin-top:28px;
+    margin-bottom:28px;
       text-shadow:
         0 0 20px rgba(255,216,77,.45);
       animation: pulse 1.8s infinite ease-in-out;
@@ -1397,6 +1398,23 @@ body::after{
     color:#94a3b8;
     font-size:14px;
 }
+
+.divider-glow{
+    width:180px;
+    height:2px;
+
+    margin:20px auto;
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        #24d5ff,
+        transparent
+    );
+
+    box-shadow:
+        0 0 15px #24d5ff;
+}
   </style>
 </head>
 <meta name="theme-color" content="#041329">
@@ -1515,11 +1533,16 @@ Cada raspadita tiene un resultado aleatorio.
       </article>
     </section>
 
-    <div class="hint">👇 Raspá acá 👇</div>
-    <div class="cta-wrap">
+<div class="cta-wrap">
   <button class="btn-premios" onclick="abrirPremios()">
     🎁 VER POSIBLES PREMIOS
   </button>
+</div>
+
+<div class="divider-glow"></div>
+
+<div class="hint">
+  👇 Raspá acá 👇
 </div>
 
     <section class="scratch-shell" id="scratchShell">
